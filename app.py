@@ -331,9 +331,12 @@ html_content = '''
                 border-radius: 50px;
                 cursor: pointer;
                 margin-top: 30px;
+                margin: 15px 10px;
                 transition: all 0.3s ease;
                 box-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
                 font-weight: bold;
+                text-decoration: none;
+                display: inline-block;
             }
 
             .button:hover {
@@ -343,6 +346,15 @@ html_content = '''
 
             .button:active {
                 transform: translateY(-1px);
+            }
+
+            .spotify-button {
+                background: linear-gradient(45deg, #1DB954, #1ed760);
+                margin-top: 15px;
+            }
+
+            .spotify-button:hover {
+                box-shadow: 0 8px 20px rgba(29, 185, 84, 0.5);
             }
 
             .footer {
@@ -423,6 +435,8 @@ html_content = '''
 
             <p class="footer">Forever and always, my love 💕</p>
             <button class="button" onclick="createConfetti()">Click for Love! 💗</button>
+            <br>
+            <a href="https://open.spotify.com/track/1WkMMavIMc4JZ8cfMmxHkI?si=6c7d3e8f9a0e4e3d" target="_blank" class="button spotify-button">🎵 Our Summer Song! ☀️</a>
         </div>
 
         <script>
@@ -458,4 +472,4 @@ html_content = '''
     '''
 
 # Render the HTML content
-components.html(html_content, height=800, scrolling=True)
+components.html(html_content, height=1200, scrolling=True)
