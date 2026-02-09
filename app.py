@@ -653,12 +653,56 @@ html_content = '''
             </div>
 
             <div style="margin: 30px 0;">
-                <button class="button" onclick="document.getElementById('lovePanel').style.display='block';">Click for Love! 💗</button>
+                <button class="button" onclick="document.getElementById('loveModal').style.display='block'; resetModal();">Click for Love! 💗</button>
                 <br>
                 <a href="https://open.spotify.com/track/1WkMMavIMc4JZ8cfMmxHkI?si=6c7d3e8f9a0e4e3d" target="_blank" class="button spotify-button">🎵 Our Summer Song! ☀️</a>
             </div>
 
             <p class="footer">Forever and always, my love 💕</p>
+        </div>
+
+        <!-- Love Modal -->
+        <div id="loveModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="document.getElementById('loveModal').style.display='none'; return false;">&times;</span>
+                <div class="modal-title">💗 Express Your Love 💗</div>
+                
+                <div class="modal-options">
+                    <button class="option-btn" onclick="generateRandomMessage(); return false;">
+                        <span class="option-emoji">🎲</span>
+                        <span>Random Love Message</span>
+                    </button>
+                    <button class="option-btn" onclick="showNoteInput(); return false;">
+                        <span class="option-emoji">📝</span>
+                        <span>Write a Custom Note</span>
+                    </button>
+                    <button class="option-btn" onclick="showMoodPicker(); return false;">
+                        <span class="option-emoji">😍</span>
+                        <span>Pick Your Mood</span>
+                    </button>
+                    <button class="option-btn" onclick="triggerSpecialConfetti(); return false;">
+                        <span class="option-emoji">🎆</span>
+                        <span>Ultimate Celebration</span>
+                    </button>
+                </div>
+
+                <div id="messageDisplay" class="message-display" style="display: none;"></div>
+                <div id="noteInput" style="display: none;">
+                    <textarea class="input-field" id="customNote" placeholder="Write something romantic..."></textarea>
+                    <button class="option-btn" onclick="sendCustomNote(); return false;">
+                        <span class="option-emoji">💌</span>
+                        <span>Send Note & Celebrate</span>
+                    </button>
+                </div>
+                <div id="moodSelector" style="display: none;">
+                    <div style="font-size: 2.5em; text-align: center; margin: 20px 0; line-height: 2;">
+                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="selectMood('😍'); return false;">😍</span>
+                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="selectMood('🥰'); return false;">🥰</span>
+                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="selectMood('😘'); return false;">😘</span>
+                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="selectMood('🤩'); return false;">🤩</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Love Message Panel -->
@@ -694,6 +738,14 @@ html_content = '''
                 document.getElementById('customNote').value = '';
             }
 
+            // Modal Control
+            function resetModal() {
+                document.getElementById('messageDisplay').style.display = 'none';
+                document.getElementById('noteInput').style.display = 'none';
+                document.getElementById('moodSelector').style.display = 'none';
+                document.getElementById('customNote').value = '';
+            }
+
             // Love Messages
             const loveMessages = [
                 "You make my heart skip a beat every day! 💓",
@@ -705,8 +757,63 @@ html_content = '''
                 "Love wasn't in my search history until I found you! 🔍💕",
                 "You're my favorite person in the whole universe! 🌌",
                 "I fall for you every single day! 😍",
-                "With you is my favorite place to be! 🏠💕"
+                "With you is my favorite place to be! 🏠💕",
+                "You're the best surprise life gave me! 🎁💕",
+                "Your smile lights up my whole world! ☀️💕"
             ];
+
+            function generateRandomMessage() {
+                const randomMsg = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+                const messageDisplay = document.getElementById('messageDisplay');
+                messageDisplay.innerHTML = randomMsg;
+                messageDisplay.style.display = 'block';
+                createConfetti();
+                return false;
+            }
+
+            function showNoteInput() {
+                document.getElementById('noteInput').style.display = 'block';
+                document.getElementById('messageDisplay').style.display = 'none';
+                document.getElementById('moodSelector').style.display = 'none';
+                document.getElementById('customNote').focus();
+                return false;
+            }
+
+            function sendCustomNote() {
+                const note = document.getElementById('customNote').value;
+                if (note.trim()) {
+                    const messageDisplay = document.getElementById('messageDisplay');
+                    messageDisplay.innerHTML = '💌 ' + note + ' 💌';
+                    messageDisplay.style.display = 'block';
+                    document.getElementById('noteInput').style.display = 'none';
+                    triggerSpecialConfetti();
+                } else {
+                    alert('Please write something! 💕');
+                }
+                return false;
+            }
+
+            function showMoodPicker() {
+                document.getElementById('moodSelector').style.display = 'block';
+                document.getElementById('messageDisplay').style.display = 'none';
+                document.getElementById('noteInput').style.display = 'none';
+                return false;
+            }
+
+            function selectMood(emoji) {
+                const moods = {
+                    '😍': 'I\'m completely smitten with you! 😍',
+                    '🥰': 'You make me smile so much! 🥰',
+                    '😘': 'Sending you all my love! 😘',
+                    '🤩': 'You\'re absolutely amazing! 🤩'
+                };
+                const messageDisplay = document.getElementById('messageDisplay');
+                messageDisplay.innerHTML = moods[emoji];
+                messageDisplay.style.display = 'block';
+                document.getElementById('moodSelector').style.display = 'none';
+                triggerSpecialConfetti();
+                return false;
+            }
 
             function showRandomMsg() {
                 try {
@@ -760,6 +867,14 @@ html_content = '''
                     document.body.appendChild(confetti);
                     
                     setTimeout(() => confetti.remove(), 5000);
+                }
+            }
+
+            // Close modal when clicking outside
+            window.onclick = function(event) {
+                const modal = document.getElementById('loveModal');
+                if (event && event.target == modal) {
+                    modal.style.display = 'none';
                 }
             }
 
