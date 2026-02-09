@@ -433,10 +433,13 @@ html_content = '''
                 <span class="sparkle">💎</span>
             </div>
 
+            <div style="margin: 30px 0;">
+                <button class="button" onclick="createConfetti()">Click for Love! 💗</button>
+                <br>
+                <a href="https://open.spotify.com/track/1WkMMavIMc4JZ8cfMmxHkI?si=6c7d3e8f9a0e4e3d" target="_blank" class="button spotify-button">🎵 Our Summer Song! ☀️</a>
+            </div>
+
             <p class="footer">Forever and always, my love 💕</p>
-            <button class="button" onclick="createConfetti()">Click for Love! 💗</button>
-            <br>
-            <a href="https://open.spotify.com/track/1WkMMavIMc4JZ8cfMmxHkI?si=6c7d3e8f9a0e4e3d" target="_blank" class="button spotify-button">🎵 Our Summer Song! ☀️</a>
         </div>
 
         <script>
@@ -471,5 +474,5 @@ html_content = '''
     </html>
     '''
 
-# Render the HTML content
-components.html(html_content, height=1200, scrolling=True)
+# Render the HTML content with full height
+components.html(html_content, height=1800)
