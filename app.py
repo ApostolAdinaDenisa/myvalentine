@@ -330,13 +330,14 @@ html_content = '''
                 font-size: 1.2em;
                 border-radius: 50px;
                 cursor: pointer;
-                margin-top: 30px;
                 margin: 15px 10px;
                 transition: all 0.3s ease;
                 box-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
                 font-weight: bold;
                 text-decoration: none;
                 display: inline-block;
+                user-select: none;
+                -webkit-user-select: none;
             }
 
             .button:hover {
@@ -567,7 +568,7 @@ html_content = '''
             </div>
 
             <div style="margin: 30px 0;">
-                <button class="button" onclick="openLoveModal()">Click for Love! 💗</button>
+                <button class="button" id="loveBtn">Click for Love! 💗</button>
                 <br>
                 <a href="https://open.spotify.com/track/1WkMMavIMc4JZ8cfMmxHkI?si=6c7d3e8f9a0e4e3d" target="_blank" class="button spotify-button">🎵 Our Summer Song! ☀️</a>
             </div>
@@ -745,13 +746,44 @@ html_content = '''
                 }
             }
 
+            // Try to attach click handler multiple times for reliability
+            function attachClickHandler() {
+                const loveBtn = document.getElementById('loveBtn');
+                if (loveBtn && !loveBtn.hasAttribute('data-listener-attached')) {
+                    loveBtn.setAttribute('data-listener-attached', 'true');
+                    loveBtn.addEventListener('click', function(e) {
+                        console.log('Love button clicked!');
+                        e.preventDefault();
+                        e.stopPropagation();
+                        openLoveModal();
+                        return false;
+                    });
+                    console.log('Click handler attached to love button');
+                }
+            }
+
             // Create initial floating hearts on load
             window.addEventListener('load', () => {
+                console.log('Page loaded, attaching click handlers');
+                attachClickHandler();
+
                 setInterval(() => {
                     const randomHeart = document.querySelectorAll('.heart');
                     randomHeart[Math.floor(Math.random() * randomHeart.length)].style.animation = 'float 6s infinite ease-in';
                 }, 500);
             });
+
+            // Also attach via direct reference
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('DOM Content Loaded, attaching click handlers');
+                attachClickHandler();
+            });
+
+            // Try immediate attachment
+            setTimeout(() => {
+                console.log('Timeout attachment');
+                attachClickHandler();
+            }, 100);
         </script>
     </body>
     </html>
