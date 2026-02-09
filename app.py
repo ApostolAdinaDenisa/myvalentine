@@ -913,4 +913,4 @@ html_content = '''
     '''
 
 # Render the HTML content with full height
-components.html(html_content, height=1800)
+components.html(html_content, height=2200)
