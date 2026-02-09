@@ -579,23 +579,23 @@ html_content = '''
         <!-- Love Modal -->
         <div id="loveModal" class="modal">
             <div class="modal-content">
-                <span class="close-modal" onclick="closeLoveModal()">&times;</span>
+                <span class="close-modal" onclick="document.getElementById('loveModal').style.display='none'; return false;">&times;</span>
                 <div class="modal-title">💗 Express Your Love 💗</div>
                 
                 <div class="modal-options">
-                    <button class="option-btn" onclick="generateRandomMessage()">
+                    <button class="option-btn" onclick="generateRandomMessage(); return false;">
                         <span class="option-emoji">🎲</span>
                         <span>Random Love Message</span>
                     </button>
-                    <button class="option-btn" onclick="showNoteInput()">
+                    <button class="option-btn" onclick="showNoteInput(); return false;">
                         <span class="option-emoji">📝</span>
                         <span>Write a Custom Note</span>
                     </button>
-                    <button class="option-btn" onclick="showMoodPicker()">
+                    <button class="option-btn" onclick="showMoodPicker(); return false;">
                         <span class="option-emoji">😍</span>
                         <span>Pick Your Mood</span>
                     </button>
-                    <button class="option-btn" onclick="triggerSpecialConfetti()">
+                    <button class="option-btn" onclick="triggerSpecialConfetti(); return false;">
                         <span class="option-emoji">🎆</span>
                         <span>Ultimate Celebration</span>
                     </button>
@@ -604,17 +604,17 @@ html_content = '''
                 <div id="messageDisplay" class="message-display" style="display: none;"></div>
                 <div id="noteInput" style="display: none;">
                     <textarea class="input-field" id="customNote" placeholder="Write something romantic..."></textarea>
-                    <button class="option-btn" onclick="sendCustomNote()">
+                    <button class="option-btn" onclick="sendCustomNote(); return false;">
                         <span class="option-emoji">💌</span>
                         <span>Send Note & Celebrate</span>
                     </button>
                 </div>
                 <div id="moodSelector" style="display: none;">
                     <div style="font-size: 2.5em; text-align: center; margin: 20px 0; line-height: 2;">
-                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="selectMood('😍')">😍</span>
-                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="selectMood('🥰')">🥰</span>
-                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="selectMood('😘')">😘</span>
-                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="selectMood('🤩')">🤩</span>
+                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="selectMood('😍'); return false;">😍</span>
+                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="selectMood('🥰'); return false;">🥰</span>
+                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="selectMood('😘'); return false;">😘</span>
+                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="selectMood('🤩'); return false;">🤩</span>
                     </div>
                 </div>
             </div>
@@ -658,6 +658,7 @@ html_content = '''
                 messageDisplay.innerHTML = randomMsg;
                 messageDisplay.style.display = 'block';
                 createConfetti();
+                return false;
             }
 
             function showNoteInput() {
@@ -665,6 +666,7 @@ html_content = '''
                 document.getElementById('messageDisplay').style.display = 'none';
                 document.getElementById('moodSelector').style.display = 'none';
                 document.getElementById('customNote').focus();
+                return false;
             }
 
             function sendCustomNote() {
@@ -678,12 +680,14 @@ html_content = '''
                 } else {
                     alert('Please write something! 💕');
                 }
+                return false;
             }
 
             function showMoodPicker() {
                 document.getElementById('moodSelector').style.display = 'block';
                 document.getElementById('messageDisplay').style.display = 'none';
                 document.getElementById('noteInput').style.display = 'none';
+                return false;
             }
 
             function selectMood(emoji) {
@@ -698,6 +702,7 @@ html_content = '''
                 messageDisplay.style.display = 'block';
                 document.getElementById('moodSelector').style.display = 'none';
                 triggerSpecialConfetti();
+                return false;
             }
 
             function triggerSpecialConfetti() {
