@@ -568,7 +568,7 @@ html_content = '''
             </div>
 
             <div style="margin: 30px 0;">
-                <button class="button" id="loveBtn">Click for Love! 💗</button>
+                <button class="button" onclick="document.getElementById('loveModal').style.display='block'; resetModal();">Click for Love! 💗</button>
                 <br>
                 <a href="https://open.spotify.com/track/1WkMMavIMc4JZ8cfMmxHkI?si=6c7d3e8f9a0e4e3d" target="_blank" class="button spotify-button">🎵 Our Summer Song! ☀️</a>
             </div>
@@ -741,49 +741,20 @@ html_content = '''
             // Close modal when clicking outside
             window.onclick = function(event) {
                 const modal = document.getElementById('loveModal');
-                if (event.target == modal) {
+                if (event && event.target == modal) {
                     modal.style.display = 'none';
-                }
-            }
-
-            // Try to attach click handler multiple times for reliability
-            function attachClickHandler() {
-                const loveBtn = document.getElementById('loveBtn');
-                if (loveBtn && !loveBtn.hasAttribute('data-listener-attached')) {
-                    loveBtn.setAttribute('data-listener-attached', 'true');
-                    loveBtn.addEventListener('click', function(e) {
-                        console.log('Love button clicked!');
-                        e.preventDefault();
-                        e.stopPropagation();
-                        openLoveModal();
-                        return false;
-                    });
-                    console.log('Click handler attached to love button');
                 }
             }
 
             // Create initial floating hearts on load
             window.addEventListener('load', () => {
-                console.log('Page loaded, attaching click handlers');
-                attachClickHandler();
-
                 setInterval(() => {
                     const randomHeart = document.querySelectorAll('.heart');
-                    randomHeart[Math.floor(Math.random() * randomHeart.length)].style.animation = 'float 6s infinite ease-in';
+                    if (randomHeart.length > 0) {
+                        randomHeart[Math.floor(Math.random() * randomHeart.length)].style.animation = 'float 6s infinite ease-in';
+                    }
                 }, 500);
             });
-
-            // Also attach via direct reference
-            document.addEventListener('DOMContentLoaded', function() {
-                console.log('DOM Content Loaded, attaching click handlers');
-                attachClickHandler();
-            });
-
-            // Try immediate attachment
-            setTimeout(() => {
-                console.log('Timeout attachment');
-                attachClickHandler();
-            }, 100);
         </script>
     </body>
     </html>
