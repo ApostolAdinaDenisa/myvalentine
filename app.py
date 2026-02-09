@@ -668,19 +668,19 @@ html_content = '''
                 <div class="modal-title">💗 Express Your Love 💗</div>
                 
                 <div class="modal-options">
-                    <button class="option-btn" onclick="generateRandomMessage(); return false;">
+                    <button class="option-btn" onclick="try { generateRandomMessage(); } catch(e) { console.log(e); } return false;">
                         <span class="option-emoji">🎲</span>
                         <span>Random Love Message</span>
                     </button>
-                    <button class="option-btn" onclick="showNoteInput(); return false;">
+                    <button class="option-btn" onclick="try { showNoteInput(); } catch(e) { console.log(e); } return false;">
                         <span class="option-emoji">📝</span>
                         <span>Write a Custom Note</span>
                     </button>
-                    <button class="option-btn" onclick="showMoodPicker(); return false;">
+                    <button class="option-btn" onclick="try { showMoodPicker(); } catch(e) { console.log(e); } return false;">
                         <span class="option-emoji">😍</span>
                         <span>Pick Your Mood</span>
                     </button>
-                    <button class="option-btn" onclick="triggerSpecialConfetti(); return false;">
+                    <button class="option-btn" onclick="try { triggerSpecialConfetti(); } catch(e) { console.log(e); } return false;">
                         <span class="option-emoji">🎆</span>
                         <span>Ultimate Celebration</span>
                     </button>
@@ -689,17 +689,17 @@ html_content = '''
                 <div id="messageDisplay" class="message-display" style="display: none;"></div>
                 <div id="noteInput" style="display: none;">
                     <textarea class="input-field" id="customNote" placeholder="Write something romantic..."></textarea>
-                    <button class="option-btn" onclick="sendCustomNote(); return false;">
+                    <button class="option-btn" onclick="try { sendCustomNote(); } catch(e) { console.log(e); } return false;">
                         <span class="option-emoji">💌</span>
                         <span>Send Note & Celebrate</span>
                     </button>
                 </div>
                 <div id="moodSelector" style="display: none;">
                     <div style="font-size: 2.5em; text-align: center; margin: 20px 0; line-height: 2;">
-                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="selectMood('😍'); return false;">😍</span>
-                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="selectMood('🥰'); return false;">🥰</span>
-                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="selectMood('😘'); return false;">😘</span>
-                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="selectMood('🤩'); return false;">🤩</span>
+                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="try { selectMood('😍'); } catch(e) { console.log(e); } return false;">😍</span>
+                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="try { selectMood('🥰'); } catch(e) { console.log(e); } return false;">🥰</span>
+                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="try { selectMood('😘'); } catch(e) { console.log(e); } return false;">😘</span>
+                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="try { selectMood('🤩'); } catch(e) { console.log(e); } return false;">🤩</span>
                     </div>
                 </div>
             </div>
@@ -740,10 +740,16 @@ html_content = '''
 
             // Modal Control
             function resetModal() {
-                document.getElementById('messageDisplay').style.display = 'none';
-                document.getElementById('noteInput').style.display = 'none';
-                document.getElementById('moodSelector').style.display = 'none';
-                document.getElementById('customNote').value = '';
+                try {
+                    document.getElementById('messageDisplay').style.display = 'none';
+                    document.getElementById('noteInput').style.display = 'none';
+                    document.getElementById('moodSelector').style.display = 'none';
+                    if (document.getElementById('customNote')) {
+                        document.getElementById('customNote').value = '';
+                    }
+                } catch(e) {
+                    console.log('resetModal error:', e);
+                }
             }
 
             // Love Messages
@@ -763,56 +769,88 @@ html_content = '''
             ];
 
             function generateRandomMessage() {
-                const randomMsg = loveMessages[Math.floor(Math.random() * loveMessages.length)];
-                const messageDisplay = document.getElementById('messageDisplay');
-                messageDisplay.innerHTML = randomMsg;
-                messageDisplay.style.display = 'block';
-                createConfetti();
-                return false;
+                try {
+                    const randomMsg = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+                    const messageDisplay = document.getElementById('messageDisplay');
+                    if (messageDisplay) {
+                        messageDisplay.innerHTML = randomMsg;
+                        messageDisplay.style.display = 'block';
+                    }
+                    createConfetti();
+                } catch(e) {
+                    console.log('generateRandomMessage error:', e);
+                }
             }
 
             function showNoteInput() {
-                document.getElementById('noteInput').style.display = 'block';
-                document.getElementById('messageDisplay').style.display = 'none';
-                document.getElementById('moodSelector').style.display = 'none';
-                document.getElementById('customNote').focus();
-                return false;
+                try {
+                    const ni = document.getElementById('noteInput');
+                    const md = document.getElementById('messageDisplay');
+                    const ms = document.getElementById('moodSelector');
+                    if (ni) ni.style.display = 'block';
+                    if (md) md.style.display = 'none';
+                    if (ms) ms.style.display = 'none';
+                    const cn = document.getElementById('customNote');
+                    if (cn) cn.focus();
+                } catch(e) {
+                    console.log('showNoteInput error:', e);
+                }
             }
 
             function sendCustomNote() {
-                const note = document.getElementById('customNote').value;
-                if (note.trim()) {
-                    const messageDisplay = document.getElementById('messageDisplay');
-                    messageDisplay.innerHTML = '💌 ' + note + ' 💌';
-                    messageDisplay.style.display = 'block';
-                    document.getElementById('noteInput').style.display = 'none';
-                    triggerSpecialConfetti();
-                } else {
-                    alert('Please write something! 💕');
+                try {
+                    const cn = document.getElementById('customNote');
+                    if (!cn) return;
+                    const note = cn.value;
+                    if (note.trim()) {
+                        const messageDisplay = document.getElementById('messageDisplay');
+                        if (messageDisplay) {
+                            messageDisplay.innerHTML = '💌 ' + note + ' 💌';
+                            messageDisplay.style.display = 'block';
+                        }
+                        const ni = document.getElementById('noteInput');
+                        if (ni) ni.style.display = 'none';
+                        triggerSpecialConfetti();
+                    } else {
+                        alert('Please write something! 💕');
+                    }
+                } catch(e) {
+                    console.log('sendCustomNote error:', e);
                 }
-                return false;
             }
 
             function showMoodPicker() {
-                document.getElementById('moodSelector').style.display = 'block';
-                document.getElementById('messageDisplay').style.display = 'none';
-                document.getElementById('noteInput').style.display = 'none';
-                return false;
+                try {
+                    const ms = document.getElementById('moodSelector');
+                    const md = document.getElementById('messageDisplay');
+                    const ni = document.getElementById('noteInput');
+                    if (ms) ms.style.display = 'block';
+                    if (md) md.style.display = 'none';
+                    if (ni) ni.style.display = 'none';
+                } catch(e) {
+                    console.log('showMoodPicker error:', e);
+                }
             }
 
             function selectMood(emoji) {
-                const moods = {
-                    '😍': 'I\'m completely smitten with you! 😍',
-                    '🥰': 'You make me smile so much! 🥰',
-                    '😘': 'Sending you all my love! 😘',
-                    '🤩': 'You\'re absolutely amazing! 🤩'
-                };
-                const messageDisplay = document.getElementById('messageDisplay');
-                messageDisplay.innerHTML = moods[emoji];
-                messageDisplay.style.display = 'block';
-                document.getElementById('moodSelector').style.display = 'none';
-                triggerSpecialConfetti();
-                return false;
+                try {
+                    const moods = {
+                        '😍': 'I\'m completely smitten with you! 😍',
+                        '🥰': 'You make me smile so much! 🥰',
+                        '😘': 'Sending you all my love! 😘',
+                        '🤩': 'You\'re absolutely amazing! 🤩'
+                    };
+                    const messageDisplay = document.getElementById('messageDisplay');
+                    if (messageDisplay) {
+                        messageDisplay.innerHTML = moods[emoji];
+                        messageDisplay.style.display = 'block';
+                    }
+                    const ms = document.getElementById('moodSelector');
+                    if (ms) ms.style.display = 'none';
+                    triggerSpecialConfetti();
+                } catch(e) {
+                    console.log('selectMood error:', e);
+                }
             }
 
             function showRandomMsg() {
