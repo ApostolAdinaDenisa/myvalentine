@@ -180,6 +180,63 @@ html_content = '''
                 }
             }
 
+            /* Cute Love Rain */
+            .love-rain {
+                position: fixed;
+                pointer-events: none;
+                animation: fall-down 8s linear infinite;
+                z-index: 1;
+            }
+
+            @keyframes fall-down {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+
+            /* Cute Hearts Container */
+            .cute-hearts {
+                text-align: center;
+                margin: 20px 0;
+                font-size: 2.5em;
+                letter-spacing: 15px;
+                animation: heartPulse 2s ease-in-out infinite;
+            }
+
+            @keyframes heartPulse {
+                0%, 100% {
+                    opacity: 0.7;
+                    transform: scale(1);
+                }
+                50% {
+                    opacity: 1;
+                    transform: scale(1.1);
+                }
+            }
+
+            /* Cute Quote Section */
+            .cute-quote {
+                background: linear-gradient(135deg, rgba(255, 182, 193, 0.5), rgba(255, 228, 225, 0.5));
+                padding: 25px;
+                border-radius: 20px;
+                border-left: 5px solid #ff69b4;
+                margin: 25px 0;
+                font-size: 1.3em;
+                font-style: italic;
+                color: #d63384;
+                line-height: 1.8;
+                box-shadow: 0 5px 15px rgba(255, 20, 147, 0.1);
+            }
+
+            .cute-quote::before {
+                content: '"';
+                font-size: 3em;
+                color: #ff69b4;
+                opacity: 0.3;
+                margin-right: 10px;
+            }
+
             .sparkle {
                 display: inline-block;
                 font-size: 1.5em;
@@ -567,6 +624,34 @@ html_content = '''
                 <span class="sparkle">💎</span>
             </div>
 
+            <div class="separation"></div>
+
+            <div class="cute-quote">
+                You're the best surprise life gave me, and I fall in love with you more every single day! 💕
+            </div>
+
+            <div class="cute-hearts">
+                💕 💖 💗 💕 💖 💗
+            </div>
+
+            <div class="separation"></div>
+
+            <div style="background: rgba(255, 255, 255, 0.5); padding: 20px; border-radius: 20px; margin: 20px 0;">
+                <div style="font-size: 1.8em; color: #ff1493; font-weight: bold; margin-bottom: 15px; text-align: center;">✨ Why I Love You ✨</div>
+                <div style="font-size: 1.1em; color: #ff69b4; line-height: 2; text-align: center;">
+                    🌟 Your smile makes my heart melt<br>
+                    🌟 Your laugh is my favorite sound<br>
+                    🌟 Your kindness inspires me<br>
+                    🌟 Everything about you is perfect 💕
+                </div>
+            </div>
+
+            <div class="separation"></div>
+
+            <div class="cute-hearts">
+                🧸 💐 🧸 💐 🧸
+            </div>
+
             <div style="margin: 30px 0;">
                 <button class="button" onclick="document.getElementById('lovePanel').style.display='block';">Click for Love! 💗</button>
                 <br>
@@ -584,11 +669,11 @@ html_content = '''
             
             <div style="text-align: center; font-size: 1.8em; color: #ff1493; font-weight: bold; margin-bottom: 20px;">💗 Surprise! 💗</div>
             
-            <button style="width: 100%; background: linear-gradient(45deg, #ff1493, #ff69b4); color: white; padding: 12px; border: none; border-radius: 15px; cursor: pointer; margin: 10px 0; font-size: 1.1em; font-weight: bold;" onclick="showRandomMsg(); event.stopPropagation();">🎲 Random Love Message</button>
+            <button style="width: 100%; background: linear-gradient(45deg, #ff1493, #ff69b4); color: white; padding: 12px; border: none; border-radius: 15px; cursor: pointer; margin: 10px 0; font-size: 1.1em; font-weight: bold; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onclick="showRandomMsg(); event.stopPropagation();">🎲 Random Love Message</button>
             
-            <button style="width: 100%; background: linear-gradient(45deg, #ff1493, #ff69b4); color: white; padding: 12px; border: none; border-radius: 15px; cursor: pointer; margin: 10px 0; font-size: 1.1em; font-weight: bold;" onclick="doMegaConfetti(); event.stopPropagation();">🎆 Mega Confetti Party!</button>
+            <button style="width: 100%; background: linear-gradient(45deg, #ff1493, #ff69b4); color: white; padding: 12px; border: none; border-radius: 15px; cursor: pointer; margin: 10px 0; font-size: 1.1em; font-weight: bold; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onclick="doMegaConfetti(); event.stopPropagation();">🎆 Mega Confetti Party!</button>
             
-            <div id="msgBox" style="display: none; margin: 15px 0; padding: 15px; background: #fff0f5; border-radius: 15px; font-size: 1.2em; color: #ff1493; font-weight: bold; text-align: center; min-height: 40px;"></div>
+            <div id="msgBox" style="display: none; margin: 15px 0; padding: 15px; background: #fff0f5; border-radius: 15px; font-size: 1.2em; color: #ff1493; font-weight: bold; text-align: center; min-height: 40px; animation: slideInModal 0.5s ease-out;"></div>
         </div>
 
         <script>
@@ -680,6 +765,13 @@ html_content = '''
 
             // Create initial floating hearts on load
             window.addEventListener('load', () => {
+                // Create some love rain on load
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        createLoveRain();
+                    }, i * 800);
+                }
+
                 setInterval(() => {
                     const randomHeart = document.querySelectorAll('.heart');
                     if (randomHeart.length > 0) {
@@ -687,6 +779,19 @@ html_content = '''
                     }
                 }, 500);
             });
+
+            function createLoveRain() {
+                const emojis = ['💕', '💖', '💗', '🌹', '✨', '🧸', '💘'];
+                const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+                const loveRain = document.createElement('div');
+                loveRain.className = 'love-rain';
+                loveRain.innerHTML = emoji;
+                loveRain.style.left = Math.random() * window.innerWidth + 'px';
+                loveRain.style.fontSize = (20 + Math.random() * 20) + 'px';
+                loveRain.style.animation = `fall-down ${4 + Math.random() * 3}s linear forwards`;
+                document.body.appendChild(loveRain);
+                setTimeout(() => loveRain.remove(), 8000);
+            }
         </script>
     </body>
     </html>
