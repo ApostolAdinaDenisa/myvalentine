@@ -668,7 +668,7 @@ html_content = '''
                 <div class="modal-title">💗 Express Your Love 💗</div>
                 
                 <div class="modal-options">
-                    <button class="option-btn" onclick="const msg = ['You make my heart skip a beat every day! 💓','With you, I found my forever! 🌟','You\'re not just my love, you\'re my everything! 💕','Every moment with you is a treasure! 💎','My heart belongs to you completely! 💗','You\'re the best decision I\'ve ever made! 🎯','Love wasn\'t in my search history until I found you! 🔍💕','You\'re my favorite person in the whole universe! 🌌','I fall for you every single day! 😍','With you is my favorite place to be! 🏠💕'][Math.floor(Math.random()*10)]; document.getElementById('messageDisplay').innerHTML=msg; document.getElementById('messageDisplay').style.display='block'; for(let i=0;i<30;i++){const c=document.createElement('div'); c.innerHTML=['💕','💖','💗','🌹','✨','🧸','🎈','🦋','💎','💍','🎀'][Math.floor(Math.random()*11)]; c.style.position='fixed'; c.style.left=Math.random()*window.innerWidth+'px'; c.style.top='0px'; c.style.fontSize=(20+Math.random()*20)+'px'; c.style.zIndex='9999'; c.style.pointerEvents='none'; c.style.animation='float '+(3+Math.random()*2)+'s linear forwards'; document.body.appendChild(c); setTimeout(()=>c.remove(),5000);}">
+                    <button class="option-btn" onclick="doRandom();">
                         <span class="option-emoji">🎲</span>
                         <span>Random Love Message</span>
                     </button>
@@ -680,7 +680,7 @@ html_content = '''
                         <span class="option-emoji">😍</span>
                         <span>Pick Your Mood</span>
                     </button>
-                    <button class="option-btn" onclick="for(let i=0;i<50;i++){const c=document.createElement('div'); c.innerHTML=['💕','💖','💗','🌹','✨','🧸','🎈','🦋','💎','💍','🎀','💘','⭐'][Math.floor(Math.random()*13)]; c.style.position='fixed'; c.style.left=Math.random()*window.innerWidth+'px'; c.style.top='0px'; c.style.fontSize=(20+Math.random()*30)+'px'; c.style.zIndex='9999'; c.style.pointerEvents='none'; c.style.animation='float '+(3+Math.random()*3)+'s linear forwards'; document.body.appendChild(c); setTimeout(()=>c.remove(),6000);}">
+                    <button class="option-btn" onclick="doBigConfetti();">
                         <span class="option-emoji">🎆</span>
                         <span>Ultimate Celebration</span>
                     </button>
@@ -944,6 +944,47 @@ html_content = '''
                 loveRain.style.animation = `fall-down ${4 + Math.random() * 3}s linear forwards`;
                 document.body.appendChild(loveRain);
                 setTimeout(() => loveRain.remove(), 8000);
+            }
+
+            // Simple functions for modal buttons
+            function doRandom() {
+                const msgs = ['You make my heart skip a beat! 💓','With you, I found forever! 🌟','You\'re my everything! 💕','Every moment treasures! 💎','You\'re the best! 🎯','Love found you! 💕','My favorite person! 🌌','I fall for you daily! 😍','You\'re my favorite place! 🏠'];
+                const msg = msgs[Math.floor(Math.random() * msgs.length)];
+                document.getElementById('messageDisplay').innerHTML = msg;
+                document.getElementById('messageDisplay').style.display = 'block';
+                doSmallConfetti();
+            }
+
+            function doSmallConfetti() {
+                for(let i = 0; i < 30; i++) {
+                    const c = document.createElement('div');
+                    c.innerHTML = ['💕','💖','💗','🌹','✨','🧸','🎈','🦋','💎','💍','🎀'][Math.floor(Math.random()*11)];
+                    c.style.position = 'fixed';
+                    c.style.left = Math.random() * window.innerWidth + 'px';
+                    c.style.top = '0px';
+                    c.style.fontSize = (20 + Math.random() * 20) + 'px';
+                    c.style.zIndex = '9999';
+                    c.style.pointerEvents = 'none';
+                    c.style.animation = 'float ' + (3 + Math.random() * 2) + 's linear forwards';
+                    document.body.appendChild(c);
+                    setTimeout(() => c.remove(), 5000);
+                }
+            }
+
+            function doBigConfetti() {
+                for(let i = 0; i < 50; i++) {
+                    const c = document.createElement('div');
+                    c.innerHTML = ['💕','💖','💗','🌹','✨','🧸','🎈','🦋','💎','💍','🎀','💘','⭐'][Math.floor(Math.random()*13)];
+                    c.style.position = 'fixed';
+                    c.style.left = Math.random() * window.innerWidth + 'px';
+                    c.style.top = '0px';
+                    c.style.fontSize = (20 + Math.random() * 30) + 'px';
+                    c.style.zIndex = '9999';
+                    c.style.pointerEvents = 'none';
+                    c.style.animation = 'float ' + (3 + Math.random() * 3) + 's linear forwards';
+                    document.body.appendChild(c);
+                    setTimeout(() => c.remove(), 6000);
+                }
             }
         </script>
     </body>
