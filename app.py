@@ -1,10 +1,9 @@
-from flask import Flask
+import streamlit as st
+import streamlit.components.v1 as components
 
-app = Flask(__name__)
+st.set_page_config(page_title="Happy Valentine's Day 💕", page_icon="💕", layout="wide")
 
-@app.route('/')
-def valentines():
-    return '''
+html_content = '''
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -458,5 +457,5 @@ def valentines():
     </html>
     '''
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# Render the HTML content
+components.html(html_content, height=800, scrolling=True)
