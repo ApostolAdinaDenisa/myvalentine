@@ -568,7 +568,7 @@ html_content = '''
             </div>
 
             <div style="margin: 30px 0;">
-                <button class="button" onclick="document.getElementById('loveModal').style.display='block'; resetModal();">Click for Love! 💗</button>
+                <button class="button" onclick="document.getElementById('lovePanel').style.display='block';">Click for Love! 💗</button>
                 <br>
                 <a href="https://open.spotify.com/track/1WkMMavIMc4JZ8cfMmxHkI?si=6c7d3e8f9a0e4e3d" target="_blank" class="button spotify-button">🎵 Our Summer Song! ☀️</a>
             </div>
@@ -576,48 +576,19 @@ html_content = '''
             <p class="footer">Forever and always, my love 💕</p>
         </div>
 
-        <!-- Love Modal -->
-        <div id="loveModal" class="modal">
-            <div class="modal-content">
-                <span class="close-modal" onclick="document.getElementById('loveModal').style.display='none'; return false;">&times;</span>
-                <div class="modal-title">💗 Express Your Love 💗</div>
-                
-                <div class="modal-options">
-                    <button class="option-btn" onclick="generateRandomMessage(); return false;">
-                        <span class="option-emoji">🎲</span>
-                        <span>Random Love Message</span>
-                    </button>
-                    <button class="option-btn" onclick="showNoteInput(); return false;">
-                        <span class="option-emoji">📝</span>
-                        <span>Write a Custom Note</span>
-                    </button>
-                    <button class="option-btn" onclick="showMoodPicker(); return false;">
-                        <span class="option-emoji">😍</span>
-                        <span>Pick Your Mood</span>
-                    </button>
-                    <button class="option-btn" onclick="triggerSpecialConfetti(); return false;">
-                        <span class="option-emoji">🎆</span>
-                        <span>Ultimate Celebration</span>
-                    </button>
-                </div>
-
-                <div id="messageDisplay" class="message-display" style="display: none;"></div>
-                <div id="noteInput" style="display: none;">
-                    <textarea class="input-field" id="customNote" placeholder="Write something romantic..."></textarea>
-                    <button class="option-btn" onclick="sendCustomNote(); return false;">
-                        <span class="option-emoji">💌</span>
-                        <span>Send Note & Celebrate</span>
-                    </button>
-                </div>
-                <div id="moodSelector" style="display: none;">
-                    <div style="font-size: 2.5em; text-align: center; margin: 20px 0; line-height: 2;">
-                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="selectMood('😍'); return false;">😍</span>
-                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="selectMood('🥰'); return false;">🥰</span>
-                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="selectMood('😘'); return false;">😘</span>
-                        <span style="cursor: pointer; display: inline-block; margin: 0 15px;" onclick="selectMood('🤩'); return false;">🤩</span>
-                    </div>
-                </div>
+        <!-- Love Message Panel -->
+        <div id="lovePanel" style="display: none; position: fixed; bottom: 20px; right: 20px; width: 90%; max-width: 400px; background: white; padding: 25px; border-radius: 20px; border: 3px solid #ff69b4; box-shadow: 0 10px 40px rgba(255, 20, 147, 0.3); z-index: 9999;">
+            <div style="text-align: right; margin-bottom: 15px;">
+                <span style="cursor: pointer; font-size: 1.8em; color: #ff1493; font-weight: bold;" onclick="document.getElementById('lovePanel').style.display='none';">✕</span>
             </div>
+            
+            <div style="text-align: center; font-size: 1.8em; color: #ff1493; font-weight: bold; margin-bottom: 20px;">💗 Surprise! 💗</div>
+            
+            <button style="width: 100%; background: linear-gradient(45deg, #ff1493, #ff69b4); color: white; padding: 12px; border: none; border-radius: 15px; cursor: pointer; margin: 10px 0; font-size: 1.1em; font-weight: bold;" onclick="showRandomMsg(); event.stopPropagation();">🎲 Random Love Message</button>
+            
+            <button style="width: 100%; background: linear-gradient(45deg, #ff1493, #ff69b4); color: white; padding: 12px; border: none; border-radius: 15px; cursor: pointer; margin: 10px 0; font-size: 1.1em; font-weight: bold;" onclick="doMegaConfetti(); event.stopPropagation();">🎆 Mega Confetti Party!</button>
+            
+            <div id="msgBox" style="display: none; margin: 15px 0; padding: 15px; background: #fff0f5; border-radius: 15px; font-size: 1.2em; color: #ff1493; font-weight: bold; text-align: center; min-height: 40px;"></div>
         </div>
 
         <script>
@@ -652,57 +623,21 @@ html_content = '''
                 "With you is my favorite place to be! 🏠💕"
             ];
 
-            function generateRandomMessage() {
-                const randomMsg = loveMessages[Math.floor(Math.random() * loveMessages.length)];
-                const messageDisplay = document.getElementById('messageDisplay');
-                messageDisplay.innerHTML = randomMsg;
-                messageDisplay.style.display = 'block';
-                createConfetti();
-                return false;
-            }
-
-            function showNoteInput() {
-                document.getElementById('noteInput').style.display = 'block';
-                document.getElementById('messageDisplay').style.display = 'none';
-                document.getElementById('moodSelector').style.display = 'none';
-                document.getElementById('customNote').focus();
-                return false;
-            }
-
-            function sendCustomNote() {
-                const note = document.getElementById('customNote').value;
-                if (note.trim()) {
-                    const messageDisplay = document.getElementById('messageDisplay');
-                    messageDisplay.innerHTML = '💌 ' + note + ' 💌';
-                    messageDisplay.style.display = 'block';
-                    document.getElementById('noteInput').style.display = 'none';
-                    triggerSpecialConfetti();
-                } else {
-                    alert('Please write something! 💕');
+            function showRandomMsg() {
+                try {
+                    const randomMsg = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+                    const msgBox = document.getElementById('msgBox');
+                    msgBox.innerHTML = randomMsg;
+                    msgBox.style.display = 'block';
+                    createConfetti();
+                } catch(e) {
+                    console.error('Error:', e);
                 }
-                return false;
             }
 
-            function showMoodPicker() {
-                document.getElementById('moodSelector').style.display = 'block';
-                document.getElementById('messageDisplay').style.display = 'none';
-                document.getElementById('noteInput').style.display = 'none';
-                return false;
-            }
-
-            function selectMood(emoji) {
-                const moods = {
-                    '😍': 'I\'m completely smitten with you! 😍',
-                    '🥰': 'You make me smile so much! 🥰',
-                    '😘': 'Sending you all my love! 😘',
-                    '🤩': 'You\'re absolutely amazing! 🤩'
-                };
-                const messageDisplay = document.getElementById('messageDisplay');
-                messageDisplay.innerHTML = moods[emoji];
-                messageDisplay.style.display = 'block';
-                document.getElementById('moodSelector').style.display = 'none';
+            function doMegaConfetti() {
                 triggerSpecialConfetti();
-                return false;
+                document.getElementById('lovePanel').style.display = 'none';
             }
 
             function triggerSpecialConfetti() {
@@ -725,7 +660,7 @@ html_content = '''
             }
 
             function createConfetti() {
-                // Create multiple confetti pieces
+                // Create regular confetti
                 for (let i = 0; i < 30; i++) {
                     const confetti = document.createElement('div');
                     confetti.innerHTML = ['💕', '💖', '💗', '🌹', '✨', '🧸', '🎈', '🦋', '💎', '💍', '🎀'][Math.floor(Math.random() * 11)];
@@ -740,14 +675,6 @@ html_content = '''
                     document.body.appendChild(confetti);
                     
                     setTimeout(() => confetti.remove(), 5000);
-                }
-            }
-
-            // Close modal when clicking outside
-            window.onclick = function(event) {
-                const modal = document.getElementById('loveModal');
-                if (event && event.target == modal) {
-                    modal.style.display = 'none';
                 }
             }
 
