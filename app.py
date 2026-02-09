@@ -668,7 +668,7 @@ html_content = '''
                 <div class="modal-title">💗 Express Your Love 💗</div>
                 
                 <div class="modal-options">
-                    <button class="option-btn" onclick="window.doRandom();">
+                    <button class="option-btn" onclick="var msgs=['You make my heart skip a beat! 💓','With you, I found forever! 🌟','You are my everything! 💕','Every moment is a treasure! 💎','You are the best! 🎯','I love you! 💕','My favorite person! 🌌','I fall for you daily! 😍','You are my favorite place! 🏠']; var msg=msgs[Math.floor(Math.random()*msgs.length)]; document.getElementById('messageDisplay').innerHTML=msg; document.getElementById('messageDisplay').style.display='block'; for(var i=0;i<30;i++){var c=document.createElement('div'); c.innerHTML=['💕','💖','💗','🌹','✨','🧸','🎈','🦋','💎','💍','🎀'][Math.floor(Math.random()*11)]; c.style.position='fixed'; c.style.left=Math.random()*window.innerWidth+'px'; c.style.top='0px'; c.style.fontSize=(20+Math.random()*20)+'px'; c.style.zIndex='9999'; c.style.pointerEvents='none'; c.style.animation='float '+(3+Math.random()*2)+'s linear forwards'; document.body.appendChild(c); setTimeout(function(el){return function(){el.remove()}}(c),5000);}">
                         <span class="option-emoji">🎲</span>
                         <span>Random Love Message</span>
                     </button>
@@ -680,7 +680,7 @@ html_content = '''
                         <span class="option-emoji">😍</span>
                         <span>Pick Your Mood</span>
                     </button>
-                    <button class="option-btn" onclick="window.doBigConfetti();">
+                    <button class="option-btn" onclick="for(var i=0;i<50;i++){var c=document.createElement('div'); c.innerHTML=['💕','💖','💗','🌹','✨','🧸','🎈','🦋','💎','💍','🎀','💘','⭐'][Math.floor(Math.random()*13)]; c.style.position='fixed'; c.style.left=Math.random()*window.innerWidth+'px'; c.style.top='0px'; c.style.fontSize=(20+Math.random()*30)+'px'; c.style.zIndex='9999'; c.style.pointerEvents='none'; c.style.animation='float '+(3+Math.random()*3)+'s linear forwards'; document.body.appendChild(c); setTimeout(function(el){return function(){el.remove()}}(c),6000);}">
                         <span class="option-emoji">🎆</span>
                         <span>Ultimate Celebration</span>
                     </button>
